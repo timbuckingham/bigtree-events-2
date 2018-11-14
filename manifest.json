@@ -2,7 +2,7 @@
     "type": "extension",
     "id": "com.fastspot.2.events",
     "version": "2.0",
-    "revision": 2,
+    "revision": 5,
     "compatibility": "4.2.22+",
     "title": "Events",
     "description": "A very fast (performance wise) events system that supports recurring events and a powerful class for pulling events into the front end of your site.\r\n\r\nVersion 2.0 is only compatible with BigTree 4.2.22 and later and is not compatible with existing Events 1.x data.",
@@ -47,7 +47,7 @@
                         "report": null,
                         "class": "list",
                         "level": "0",
-                        "position": "6"
+                        "position": "7"
                     },
                     {
                         "id": "9",
@@ -60,7 +60,7 @@
                         "report": null,
                         "class": "calendar2",
                         "level": "0",
-                        "position": "4"
+                        "position": "6"
                     },
                     {
                         "id": "10",
@@ -73,7 +73,7 @@
                         "report": null,
                         "class": "add",
                         "level": "0",
-                        "position": "3"
+                        "position": "5"
                     },
                     {
                         "id": "11",
@@ -86,7 +86,7 @@
                         "report": null,
                         "class": "category",
                         "level": "0",
-                        "position": "2"
+                        "position": "4"
                     },
                     {
                         "id": "12",
@@ -95,6 +95,32 @@
                         "route": "add-category",
                         "in_nav": "on",
                         "form": "3",
+                        "view": null,
+                        "report": null,
+                        "class": "add",
+                        "level": "0",
+                        "position": "3"
+                    },
+                    {
+                        "id": "47",
+                        "module": "3",
+                        "name": "View Locations",
+                        "route": "view-locations",
+                        "in_nav": "on",
+                        "form": null,
+                        "view": "13",
+                        "report": null,
+                        "class": "list",
+                        "level": "0",
+                        "position": "2"
+                    },
+                    {
+                        "id": "48",
+                        "module": "3",
+                        "name": "Add Location",
+                        "route": "add-location",
+                        "in_nav": "on",
+                        "form": "10",
                         "view": null,
                         "report": null,
                         "class": "add",
@@ -124,32 +150,6 @@
                         "view": null,
                         "report": null,
                         "class": "edit",
-                        "level": "0",
-                        "position": "0"
-                    },
-                    {
-                        "id": "47",
-                        "module": "3",
-                        "name": "View Locations",
-                        "route": "view-locations",
-                        "in_nav": "on",
-                        "form": null,
-                        "view": "13",
-                        "report": null,
-                        "class": "list",
-                        "level": "0",
-                        "position": "0"
-                    },
-                    {
-                        "id": "48",
-                        "module": "3",
-                        "name": "Add Location",
-                        "route": "add-location",
-                        "in_nav": "on",
-                        "form": "10",
-                        "view": null,
-                        "report": null,
-                        "class": "add",
                         "level": "0",
                         "position": "0"
                     },
