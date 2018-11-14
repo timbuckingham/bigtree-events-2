@@ -3,7 +3,7 @@
     "id": "com.fastspot.2.events",
     "version": "2.0",
     "revision": 2,
-    "compatibility": "4.2.4+",
+    "compatibility": "4.2.22+",
     "title": "Events",
     "description": "A very fast (performance wise) events system that supports recurring events and a powerful class for pulling events into the front end of your site.\r\n\r\nVersion 2.0 is only compatible with BigTree 4.2.22 and later and is not compatible with existing Events 1.x data.",
     "keywords": [
