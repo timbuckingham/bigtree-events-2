@@ -369,15 +369,6 @@
 		}
 		
 		/*
-			Function: publishHook
-				Used by the BigTree form to cache the event on publish.
-		*/
-		
-		public static function publishHook($table, $id, $changes, $many_to_many, $tags) {
-			static::recacheEvent($id);
-		}
-		
-		/*
 			Function: get
 				Returns an event with its fields decoded.
 			
@@ -410,6 +401,23 @@
 			}
 			
 			return $item;
+		}
+
+		/*
+			Function: getBreadcrumb
+				Used by templates to bring in breadcrumbs.
+		*/
+
+		function getBreadcrumb($page) {
+			$link = WWW_ROOT.$page["path"]."/";
+
+			global $event;
+
+			if (defined("EVENT_DETAIL")) {
+				return [["title" => $event["title"], "link" => $link."event/".$event["title_route"]."/".$event["date_route"]."/"]];
+			}
+
+			return [];
 		}
 		
 		/*
@@ -454,6 +462,21 @@
 			$end_date = date("Y-m-d H:i:s", $end_date);
 			
 			return [$start_date, $end_date];
+		}
+
+		/*
+			Function: getCategories
+				Returns all top level categories.
+
+			Parameters:
+				sort - The sort order of the categories (defaults to positioned).
+
+			Returns:
+				An array of categories.
+		*/
+		
+		public static function getCategories($sort = "position DESC, id ASC") {
+			return SQL::fetchAll("SELECT * FROM btx_events_categories WHERE (parent IS NULL OR parent = 0) ORDER BY $sort");
 		}
 		
 		/*
@@ -802,7 +825,7 @@
 										  AND btx_events_date_cache.end >= '$start_date 00:00:00'
 										  AND btx_events_date_cache.start <= '$end_date 23:59:59'
 										  AND (".implode(" OR ", $cat_search).")
-										      $featured
+										  $featured
 								  		ORDER BY btx_events_date_cache.start ASC");
 			
 			foreach ($instances as $instance) {
@@ -1006,7 +1029,7 @@
 												btx_events_events.*
 										   FROM btx_events_events JOIN btx_events_date_cache
 										   WHERE btx_events_date_cache.event = btx_events_events.id
-										     AND btx_events_date_cache.id = ?", $id));
+										 AND btx_events_date_cache.id = ?", $id));
 		}
 		
 		/*
@@ -1029,8 +1052,8 @@
 												btx_events_events.*
 										   FROM btx_events_events JOIN btx_events_date_cache
 										   WHERE btx_events_date_cache.event = btx_events_events.id
-										     AND btx_events_date_cache.title_route = ?
-										     AND btx_events_date_cache.date_route = ?", $title_route, $date_route));
+										 AND btx_events_date_cache.title_route = ?
+										 AND btx_events_date_cache.date_route = ?", $title_route, $date_route));
 		}
 		
 		/*
@@ -1272,8 +1295,8 @@
 												btx_events_events.*
 										   FROM btx_events_events JOIN btx_events_date_cache
 										   WHERE btx_events_date_cache.event = btx_events_events.id
-										     AND btx_events_date_cache.end >= NOW()
-										         $featured
+										 AND btx_events_date_cache.end >= NOW()
+										 $featured
 										   ORDER BY RAND() LIMIT 1"));
 		}
 		
@@ -1370,7 +1393,7 @@
 									 WHERE btx_events_date_cache.event = btx_events_events.id
 									   AND $query_words btx_events_date_cache.end >= '$start_date 00:00:00'
 									   AND btx_events_date_cache.start <= '$end_date 23:59:59'
-									       $featured
+									   $featured
 									 ORDER BY btx_events_date_cache.start ASC");
 			
 			foreach ($events as $index => $event) {
@@ -1405,9 +1428,9 @@
 												  btx_events_events.*
 										   FROM btx_events_events JOIN btx_events_date_cache
 										   WHERE btx_events_date_cache.event = btx_events_events.id
-										     AND btx_events_date_cache.start <= '$date 23:59:59'
-										     AND btx_events_date_cache.end >= '$date 00:00:00'
-										         $featured
+										 AND btx_events_date_cache.start <= '$date 23:59:59'
+										 AND btx_events_date_cache.end >= '$date 00:00:00'
+										 $featured
 										   ORDER BY $sort LIMIT 1"));
 		}
 		
@@ -1449,6 +1472,58 @@
 			}
 			
 			return $categories;
+		}
+
+		/*
+			Function: getTotalUpcomingEvents
+				Returns the total number of upcoming events.
+
+			Returns:
+				An integer
+		*/
+
+		public static function getTotalUpcomingEvents() {
+			return SQL::fetchSingle("SELECT COUNT(*) FROM btx_events_date_cache WHERE end >= NOW()");
+		}
+
+		/*
+			Function: getTotalUpcomingEventsInCategory
+				Returns the total number of upcoming events in a given category.
+			
+			Parameters:
+				category - A category ID
+
+			Returns:
+				An integer
+		*/
+
+		public static function getTotalUpcomingEventsInCategory($category) {
+			return static::getTotalUpcomingEventsInCategories([$category]);
+		}
+
+		/*
+			Function: getTotalUpcomingEventsInCategories
+				Returns the total number of upcoming events in a given category set.
+			
+			Parameters:
+				categories - An array of category IDs
+
+			Returns:
+				An integer
+		*/
+
+		public static function getTotalUpcomingEventsInCategories($categories) {
+			$cat_search = [];
+			
+			foreach ($categories as $category) {
+				$cat_search[] = "btx_events_event_categories.category = '".intval($category)."'";
+			}
+			
+			return SQL::fetchSingle("SELECT COUNT(DISTINCT(CONCAT(btx_events_date_cache.event,btx_events_date_cache.start,btx_events_date_cache.end)))
+									 FROM btx_events_date_cache JOIN btx_events_event_categories
+									 ON btx_events_date_cache.event = btx_events_event_categories.event
+									 WHERE btx_events_date_cache.end >= NOW()
+									 AND (".implode(" OR ", $cat_search).")");
 		}
 		
 		/*
@@ -1497,7 +1572,7 @@
 									 FROM btx_events_events JOIN btx_events_date_cache
 									 WHERE btx_events_date_cache.event = btx_events_events.id
 									   AND btx_events_date_cache.end >= NOW()
-									       $featured
+									   $featured
 									 ORDER BY btx_events_date_cache.start ASC LIMIT ".($page * $limit).", $limit");
 			
 			foreach ($events as $index => $event) {
@@ -1584,7 +1659,7 @@
 										WHERE btx_events_date_cache.event = btx_events_event_categories.event
 										  AND btx_events_date_cache.end >= NOW()
 										  AND (".implode(" OR ", $cat_search).")
-										      $featured
+										  $featured
 										ORDER BY btx_events_date_cache.start ASC LIMIT ".($page * $limit).",$limit");
 			
 			foreach ($instances as $instance) {
@@ -1706,7 +1781,7 @@
 									 FROM btx_events_events JOIN btx_events_date_cache
 									 WHERE btx_events_date_cache.event = btx_events_events.id
 									   AND $query_words btx_events_date_cache.end >= NOW()
-									       $featured
+									   $featured
 									 ORDER BY btx_events_date_cache.start ASC LIMIT $limit");
 			
 			foreach ($events as $index => $event) {
@@ -1730,6 +1805,15 @@
 		
 		public static function getUpcomingFeaturedSearchResults($query, $limit = 5) {
 			return static::getUpcomingSearchResults($query, $limit, true);
+		}		
+		
+		/*
+			Function: publishHook
+				Used by the BigTree form to cache the event on publish.
+		*/
+		
+		public static function publishHook($table, $id, $changes, $many_to_many, $tags) {
+			static::recacheEvent($id);
 		}
 		
 		/*

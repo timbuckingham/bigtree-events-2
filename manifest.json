@@ -1,10 +1,10 @@
 {
     "type": "extension",
     "id": "com.fastspot.2.events",
-    "version": "2.0",
-    "revision": 5,
+    "version": "2.0.1",
+    "revision": 6,
     "compatibility": "4.2.22+",
-    "title": "Events",
+    "title": "Events 2",
     "description": "A very fast (performance wise) events system that supports recurring events and a powerful class for pulling events into the front end of your site.\r\n\r\nVersion 2.0 is only compatible with BigTree 4.2.22 and later and is not compatible with existing Events 1.x data.",
     "keywords": [
         "events",
@@ -192,7 +192,7 @@
                             "delete": "on"
                         },
                         "preview_url": "",
-                        "related_form": null
+                        "related_form": "3"
                     },
                     {
                         "id": "4",
@@ -227,7 +227,7 @@
                             "delete": "on"
                         },
                         "preview_url": "",
-                        "related_form": null
+                        "related_form": "4"
                     },
                     {
                         "id": "13",
