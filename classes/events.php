@@ -1264,7 +1264,7 @@
 			$count = SQL::fetchSingle("SELECT COUNT(DISTINCT(id))
 									   FROM btx_events_date_cache JOIN btx_events_event_categories
 									   ON btx_events_date_cache.event = btx_events_event_categories.event
-									   WHERE ".implode(" OR ", $category_query));
+									   WHERE btx_events_date_cache.end >= NOW() AND (".implode(" OR ", $category_query).")");
 			
 			return ceil($count / $per_page) ?: 1;
 		}
