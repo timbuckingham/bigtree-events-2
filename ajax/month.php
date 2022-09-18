@@ -1,29 +1,33 @@
 <?php
 	if (isset($_GET["month"])) {
 		$month = $_GET["month"];
+	} else {
+		$month = time();
 	}
 
 	if (!defined("MODULE_ROOT")) {
 		define("MODULE_ROOT", $_GET["module_root"]);
 	}
 
-	$month = strtotime(date("F 1, Y",$month));
+	$month = strtotime(date("F 1, Y", $month));
 	
 	// Get the events for this month
-	$events = BTXEvents::getEventsByDateRange(date("Y-m-1",$month),date("Y-m-t",$month));
+	$events = BTXEvents::getEventsByDateRange(date("Y-m-1", $month), date("Y-m-t", $month));
 
-	// Change the events into an array with the key being a date and the value being an array of events ocurring on that day
+	// Change the events into an array with the key being a date and the value being an array of events occurring on that day
 	$month_of_events = BTXEvents::getKeyedDateRangeForEvents($events);
 ?>
 <div id="btx_events_calendar">
 	<header>
 		<a class="today" href="#<?=time()?>">Today is: <?=date("F j")?></a>
+		
 		<nav>
 			<a href="#<?=($month-60*60)?>" class="previous month_button"><span>&laquo;</span></a>
 			<span><?=date("F Y",$month)?></span>
 			<a href="#<?=(strtotime(date("F t, Y",$month))+60*60*24)?>" class="next month_button"><span>&raquo;</span></a>
 		</nav>
 	</header>
+	
 	<summary>
 		<section>Sunday</section>
 		<section>Monday</section>
@@ -33,6 +37,7 @@
 		<section>Friday</section>
 		<section>Saturday</section>
 	</summary>
+	
 	<ul class="dates">
 		<?php
 			// Get the number of days in the previous month.
@@ -92,7 +97,7 @@
 			$day = str_pad($x,2,"0",STR_PAD_LEFT);
 
 			// See if there are any events for this day.
-			$items = $month_of_events[date("Y",$month)."-".date("m",$month)."-".$day];
+			$items = $month_of_events[date("Y",$month)."-".date("m",$month)."-".$day] ?? [];
 
   			if (!empty($items) && count($items)) {
   				echo '<ul class="calendar_events">';

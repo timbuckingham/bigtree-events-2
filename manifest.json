@@ -1,8 +1,8 @@
 {
     "type": "extension",
     "id": "com.fastspot.2.events",
-    "version": "2.0.2",
-    "revision": 8,
+    "version": "2.0.3",
+    "revision": 9,
     "compatibility": "4.2.22+",
     "title": "Events 2",
     "description": "A very fast (performance wise) events system that supports recurring events and a powerful class for pulling events into the front end of your site.\r\n\r\nVersion 2.0 is only compatible with BigTree 4.2.22 and later and is not compatible with existing Events 1.x data.",
@@ -394,7 +394,7 @@
                         "view": "views-15e8e0b3682207",
                         "report": null,
                         "level": "0",
-                        "position": "10",
+                        "position": 10,
                         "0": "route",
                         "id": "actions-15e8e0b368acf3",
                         "module": "modules-15e8e0b367e8c3"
@@ -408,7 +408,7 @@
                         "view": null,
                         "report": null,
                         "level": "0",
-                        "position": "9",
+                        "position": 9,
                         "0": "route",
                         "id": "actions-15e8e0b368b534",
                         "module": "modules-15e8e0b367e8c3"
@@ -422,7 +422,7 @@
                         "view": null,
                         "report": null,
                         "level": "0",
-                        "position": "8",
+                        "position": 8,
                         "0": "route",
                         "id": "actions-15e8e0b368bcd4",
                         "module": "modules-15e8e0b367e8c3"
@@ -436,7 +436,7 @@
                         "view": "views-15e8e0b367fc90",
                         "report": null,
                         "level": "0",
-                        "position": "7",
+                        "position": 7,
                         "0": "route",
                         "id": "actions-15e8e0b368cf94",
                         "module": "modules-15e8e0b367e8c3"
@@ -450,7 +450,7 @@
                         "view": null,
                         "report": null,
                         "level": "0",
-                        "position": "6",
+                        "position": 6,
                         "0": "route",
                         "id": "actions-15e8e0b368d7ac",
                         "module": "modules-15e8e0b367e8c3"
@@ -464,7 +464,7 @@
                         "view": "views-15e8e0b36848e5",
                         "report": null,
                         "level": "0",
-                        "position": "5",
+                        "position": 5,
                         "0": "route",
                         "id": "actions-15e8e0b368ea79",
                         "module": "modules-15e8e0b367e8c3"
@@ -478,7 +478,7 @@
                         "view": null,
                         "report": null,
                         "level": "0",
-                        "position": "4",
+                        "position": 4,
                         "0": "route",
                         "id": "actions-15e8e0b368f2d7",
                         "module": "modules-15e8e0b367e8c3"
@@ -492,7 +492,7 @@
                         "view": null,
                         "report": null,
                         "level": "0",
-                        "position": "2",
+                        "position": 2,
                         "0": "route",
                         "id": "actions-15e8e0b369089b",
                         "module": "modules-15e8e0b367e8c3"
@@ -506,7 +506,7 @@
                         "view": null,
                         "report": null,
                         "level": "0",
-                        "position": "1",
+                        "position": 1,
                         "0": "route",
                         "id": "actions-15e8e0b3691be3",
                         "module": "modules-15e8e0b367e8c3"

@@ -1,4 +1,12 @@
 <?php
+	/**
+	 * @global BigTreeAdmin $admin
+	 * @global array $bigtree
+	 * @global BigTreeCMS $cms
+	 * @global BTXEvents $eventsMod
+	 * @global callable $getOrdinal
+	 */
+	
 	$event = $eventsMod->get($bigtree["commands"][0]);
 		
 	if (!$event) {
@@ -29,7 +37,7 @@
 			
 			foreach ($rules as $item) {
 				$rule = json_decode($item["rule"], true);
-				$cancels = json_decode($item["cancellations"], true);
+				$cancels = json_decode($item["cancellations"], true) ?: [];
 		?>
 		<li>
 			<section class="view_column view_column_event_rule_type"><?=ucwords($item["type"])?></section>
@@ -52,7 +60,7 @@
 							echo $getOrdinal($rule["week"])." ".BTXEvents::$Days[$rule["day"]];
 						}
 					} elseif ($item["type"] == "yearly") {
-						list($month, $day) = explode("-", $rule);
+						[$month, $day] = explode("-", $rule);
 						
 						echo BTXEvents::$Months[$month]." ".$getOrdinal($day);
 					} elseif ($item["type"] == "specific") {
