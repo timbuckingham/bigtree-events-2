@@ -1,8 +1,8 @@
 <?php
 	$event = $eventsMod->get($bigtree["commands"][0]);
-	
+
 	if (!$event) {
-		$cms->catch404();
+		$admin->stop("Event does not exist.");
 	}
 
 	$permission_level = $admin->getAccessLevel($bigtree["module"], $event, "btx_events_events");
@@ -10,21 +10,21 @@
 	if ($permission_level != "p") {
 		$admin->stop("Access denied.");
 	}
-	
+
 	// Get all the recurrences
 	$recurrences = [];
 	$times = [];
 	$rules = [];
-	
+
 	$cached = SQL::fetchAll("SELECT * FROM btx_events_date_cache WHERE event = ? AND (start > NOW() OR end < NOW()) ORDER BY start ASC", $event["id"]);
 	$canceled = SQL::fetchAll("SELECT * FROM btx_events_date_cache_canceled WHERE event = ? AND (start > NOW() OR end < NOW()) ORDER BY start ASC", $event["id"]);
-	
+
 	foreach ($cached as $item) {
 		$item["status"] = "active";
 		$recurrences[] = $item;
 		$times[] = strtotime($item["start"]);
 	}
-		
+
 	foreach ($canceled as $item) {
 		$item["status"] = "canceled";
 		$recurrences[] = $item;
@@ -32,13 +32,13 @@
 	}
 
 	array_multisort($times, SORT_ASC, $recurrences);
-	
+
 	// Get all the rules
 	$raw_rules = SQL::fetchAll("SELECT * FROM btx_events_recurrence_rules WHERE event = ?", $event["id"]);
-	
+
 	foreach ($raw_rules as $rule) {
 		$rules[$rule["id"]] = $rule;
-	}	
+	}
 ?>
 <div class="table auto_modules">
 	<summary>
@@ -108,7 +108,7 @@
 				<?php
 							} else {
 				?>
-				<a href="<?=MODULE_ROOT?>edit-recurrence-rule/<?=$item["rule"]?>/?return=recurrences" class="icon_edit"></a>				
+				<a href="<?=MODULE_ROOT?>edit-recurrence-rule/<?=$item["rule"]?>/?return=recurrences" class="icon_edit"></a>
 				<?php
 							}
 						}
@@ -129,7 +129,7 @@
 						} else {
 				?>
 				<a href="<?=MODULE_ROOT?>cancel-recurrence/?event=<?=$item["event"]?>&recurrence=<?=$item["id"]?><?php $admin->drawCSRFTokenGET(); ?>" class="icon_archive"></a>
-				<?php		
+				<?php
 						}
 					}
 				?>
@@ -149,15 +149,15 @@
 	.event_canceled * {
 		text-decoration: line-through;
 	}
-	
+
 	.view_column_event_date {
 		width: 208px;
 	}
-	
+
 	.view_column_event_time {
 		width: 160px;
 	}
-	
+
 	.view_column_event_recurrence_reason {
 		width: 230px;
 	}
@@ -166,10 +166,10 @@
 <script>
 	(function() {
 		var Current;
-		
+
 		$(".table").on("click",".icon_delete",function() {
 			Current = $(this);
-			
+
 			BigTreeDialog({
 				title: "Delete Item",
 				content: '<p class="confirm">Are you sure you want to delete this recurrence?</p>',
@@ -180,7 +180,7 @@
 					document.location.href = href;
 				}
 			});
-	
+
 			return false;
 		});
 	})();

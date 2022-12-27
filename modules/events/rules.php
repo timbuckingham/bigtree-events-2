@@ -7,8 +7,9 @@
 	 * @global callable $getOrdinal
 	 */
 	
+	
 	$event = $eventsMod->get($bigtree["commands"][0]);
-		
+	
 	if (!$event) {
 		$cms->catch404();
 	}
@@ -75,7 +76,7 @@
 			<section class="view_column view_column_event_rule_cancellations">
 				<?php
 					echo implode(", ", $cancels);
-				?>				
+				?>
 			</section>
 			<section class="view_action">
 				<a href="<?=MODULE_ROOT?>edit-recurrence-rule/<?=$item["id"]?>/" class="icon_edit" title="Edit"></a>

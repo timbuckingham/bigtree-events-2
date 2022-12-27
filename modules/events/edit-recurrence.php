@@ -5,10 +5,18 @@
 	if ($permission_level != "p") {
 		$admin->stop("Access denied.");
 	}
-	
+
 	$recurrence = SQL::fetch("SELECT * FROM btx_events_date_cache WHERE id = ?", $_GET["recurrence"]);
 	
-	if (!$event || !$recurrence || $recurrence["type"] == "specific") {
+	if ($recurrence["rule"]) {
+		$rule = SQL::fetch("SELECT * FROM btx_events_recurrence_rules WHERE id = ?", $recurrence["rule"]);
+		
+		if ($rule["type"] == "specific") {
+			$admin->stop("Invalid recurrence.");
+		}
+	}
+
+	if (!$event || !$recurrence) {
 		$admin->stop("Invalid recurrence.");
 	}
 ?>
@@ -37,12 +45,12 @@
 					</fieldset>
 				</div>
 			</div>
-			
+
 			<div class="contain">
 				<div class="left">
 					<fieldset>
 						<label for="field_start_time">Start Time</label>
-						<input type="text" class="time_picker" id="field_start_time" autocomplete="off" value="<?php if ($recurrence["start_time"]) { echo date("g:ia", strtotime($recurrence["start"])); } ?>" name="start_time" tabindex="" <?php if ($recurrence["all_day"]) { ?> disabled<?php } ?> />
+						<input type="text" class="time_picker" id="field_start_time" autocomplete="off" value="<?php if (empty($recurrence["all_day"])) { echo date("g:ia", strtotime($recurrence["start"])); } ?>" name="start_time" tabindex="" <?php if ($recurrence["all_day"]) { ?> disabled<?php } ?> />
 						<span class="icon_small icon_small_clock time_picker_icon"></span>
 					</fieldset>
 				</div>
@@ -54,7 +62,7 @@
 					</fieldset>
 				</div>
 			</div>
-			
+
 			<fieldset>
 				<input type="checkbox" name="all_day" id="field_all_day"<?php if ($recurrence["all_day"]) { ?> checked<?php } ?>>
 				<label class="for_checkbox">All Day</label>

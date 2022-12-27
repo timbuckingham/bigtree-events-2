@@ -1,8 +1,8 @@
 {
     "type": "extension",
     "id": "com.fastspot.2.events",
-    "version": "2.0.4",
-    "revision": 10,
+    "version": "2.5",
+    "revision": 11,
     "compatibility": "4.2.22+",
     "title": "Events 2",
     "description": "A very fast (performance wise) events system that supports recurring events and a powerful class for pulling events into the front end of your site.\r\n\r\nVersion 2.0 is only compatible with BigTree 4.2.22 and later and is not compatible with existing Events 1.x data.",
@@ -77,13 +77,13 @@
                                 "width": "111",
                                 "title": "Start Date",
                                 "parser": "",
-                                "numeric": ""
+                                "numeric": false
                             },
                             "title": {
                                 "width": "617",
                                 "title": "Title",
                                 "parser": "",
-                                "numeric": ""
+                                "numeric": false
                             }
                         },
                         "actions": {
@@ -183,48 +183,47 @@
                         "table": "btx_events_events",
                         "fields": [
                             {
-                                "column": "start_date",
-                                "type": "com.fastspot.2.events*event-actions",
                                 "title": "Event Actions",
                                 "subtitle": "",
+                                "type": "com.fastspot.2.events*event-actions",
                                 "settings": {
                                     "column": "start_date"
-                                }
+                                },
+                                "column": "start_date"
                             },
                             {
-                                "column": "title",
-                                "type": "text",
                                 "title": "Title",
                                 "subtitle": "",
+                                "type": "text",
                                 "settings": {
                                     "column": "title"
-                                }
+                                },
+                                "column": "title"
                             },
                             {
-                                "column": "blurb",
-                                "type": "textarea",
                                 "title": "Blurb",
                                 "subtitle": "(list view)",
+                                "type": "textarea",
                                 "settings": {
                                     "column": "blurb"
-                                }
+                                },
+                                "column": "blurb"
                             },
                             {
-                                "column": "image",
-                                "type": "upload",
                                 "title": "Image",
                                 "subtitle": "",
+                                "type": "upload",
                                 "settings": {
                                     "directory": "files/events/",
                                     "image": "on",
                                     "column": "image"
-                                }
+                                },
+                                "column": "image"
                             },
                             {
-                                "column": "location",
-                                "type": "list",
                                 "title": "Location",
                                 "subtitle": "",
+                                "type": "list",
                                 "settings": {
                                     "list_type": "db",
                                     "allow-empty": "Yes",
@@ -232,32 +231,32 @@
                                     "pop-description": "title",
                                     "pop-sort": "`title` ASC",
                                     "column": "location"
-                                }
+                                },
+                                "column": "location"
                             },
                             {
-                                "column": "link",
-                                "type": "text",
                                 "title": "Link",
                                 "subtitle": "(disables detail page)",
+                                "type": "text",
                                 "settings": {
                                     "validation": "link",
                                     "column": "link"
-                                }
+                                },
+                                "column": "link"
                             },
                             {
-                                "column": "content",
-                                "type": "html",
                                 "title": "Content",
                                 "subtitle": "(detail page)",
+                                "type": "html",
                                 "settings": {
                                     "column": "content"
-                                }
+                                },
+                                "column": "content"
                             },
                             {
-                                "column": "__mtm-1__",
-                                "type": "many-to-many",
                                 "title": "Categories",
                                 "subtitle": "",
+                                "type": "many-to-many",
                                 "settings": {
                                     "mtm-connecting-table": "btx_events_event_categories",
                                     "mtm-my-id": "event",
@@ -265,30 +264,30 @@
                                     "mtm-other-table": "btx_events_categories",
                                     "mtm-other-descriptor": "title",
                                     "mtm-sort": "`title` ASC",
-                                    "mtm-list-parser": "BTXEvents::parseMTM",
-                                    "column": "__mtm-1__"
-                                }
+                                    "mtm-list-parser": "BTXEvents::parseManyToMany"
+                                },
+                                "column": "__mtm-1__"
                             },
                             {
-                                "column": "all_day",
-                                "type": "com.fastspot.2.events*date-chooser",
                                 "title": "Date Chooser",
                                 "subtitle": "",
+                                "type": "com.fastspot.2.events*date-chooser",
                                 "settings": {
                                     "function": "BTXEvents::drawFormDateTime",
                                     "process_function": "BTXEvents::parseFormDateTime",
                                     "column": "all_day"
-                                }
+                                },
+                                "column": "all_day"
                             },
                             {
-                                "column": "route",
-                                "type": "route",
                                 "title": "Route",
                                 "subtitle": "",
+                                "type": "route",
                                 "settings": {
                                     "source": "title",
                                     "column": "route"
-                                }
+                                },
+                                "column": "route"
                             }
                         ],
                         "default_position": "",
@@ -560,10 +559,14 @@
             "btx_events_date_cache": "CREATE TABLE `btx_events_date_cache` (   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,   `event` int(11) unsigned NOT NULL,   `start` datetime NOT NULL,   `end` datetime NOT NULL,   `date_cached` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,   `title_route` varchar(255) NOT NULL DEFAULT '',   `date_route` varchar(255) NOT NULL DEFAULT '',   `route` varchar(1000) NOT NULL DEFAULT '',   `all_day` char(2) NOT NULL DEFAULT '',   `end_time` time DEFAULT NULL,   `end_date` date DEFAULT NULL,   `rule` int(11) unsigned DEFAULT NULL,   PRIMARY KEY (`id`),   KEY `event` (`event`),   KEY `start` (`start`),   KEY `end` (`end`),   KEY `title_route` (`title_route`),   KEY `date_route` (`date_route`),   KEY `date_cached` (`date_cached`),   KEY `rule` (`rule`),    FOREIGN KEY (`event`) REFERENCES `btx_events_events` (`id`) ON DELETE CASCADE,    FOREIGN KEY (`rule`) REFERENCES `btx_events_recurrence_rules` (`id`) ON DELETE CASCADE ) ENGINE=InnoDB DEFAULT CHARSET=utf8",
             "btx_events_date_cache_canceled": "CREATE TABLE `btx_events_date_cache_canceled` (   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,   `event` int(11) unsigned DEFAULT NULL,   `start` datetime DEFAULT NULL,   `end` datetime DEFAULT NULL,   `all_day` char(2) NOT NULL DEFAULT '',   `date_cached` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,   `date` date DEFAULT NULL,   `rule` int(11) unsigned NOT NULL,   PRIMARY KEY (`id`),   KEY `event` (`event`),   KEY `date_cached` (`date_cached`),   KEY `rule` (`rule`),    FOREIGN KEY (`event`) REFERENCES `btx_events_events` (`id`) ON DELETE CASCADE,    FOREIGN KEY (`rule`) REFERENCES `btx_events_recurrence_rules` (`id`) ON DELETE CASCADE ) ENGINE=InnoDB DEFAULT CHARSET=utf8",
             "btx_events_event_categories": "CREATE TABLE `btx_events_event_categories` (   `event` int(11) unsigned NOT NULL,   `category` int(11) unsigned NOT NULL,   KEY `event` (`event`),   KEY `category` (`category`),    FOREIGN KEY (`event`) REFERENCES `btx_events_events` (`id`) ON DELETE CASCADE,    FOREIGN KEY (`category`) REFERENCES `btx_events_categories` (`id`) ON DELETE CASCADE ) ENGINE=InnoDB DEFAULT CHARSET=utf8",
-            "btx_events_events": "CREATE TABLE `btx_events_events` (   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,   `title` varchar(255) NOT NULL DEFAULT '',   `blurb` text NOT NULL,   `content` longtext NOT NULL,   `link` varchar(255) NOT NULL DEFAULT '',   `image` varchar(255) NOT NULL,   `location` int(11) DEFAULT NULL,   `start_date` date DEFAULT NULL,   `end_date` date DEFAULT NULL,   `start_time` time DEFAULT NULL,   `end_time` time DEFAULT NULL,   `all_day` char(2) NOT NULL,   `route` varchar(255) NOT NULL,   `featured` char(2) NOT NULL,   `last_updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,   PRIMARY KEY (`id`),   KEY `start_date` (`start_date`),   KEY `end_date` (`end_date`),   KEY `featured` (`featured`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8",
+            "btx_events_events": "CREATE TABLE `btx_events_events` (   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,   `title` varchar(255) NOT NULL DEFAULT '',   `blurb` text NOT NULL,   `content` longtext NOT NULL,   `link` varchar(255) NOT NULL DEFAULT '',   `image` varchar(255) NOT NULL,   `image_alt` varchar(255) NOT NULL,   `location` int(11) DEFAULT NULL,   `start_date` date DEFAULT NULL,   `end_date` date DEFAULT NULL,   `start_time` time DEFAULT NULL,   `end_time` time DEFAULT NULL,   `all_day` char(2) NOT NULL,   `route` varchar(255) NOT NULL,   `featured` char(2) NOT NULL,   `last_updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,   PRIMARY KEY (`id`),   KEY `start_date` (`start_date`),   KEY `end_date` (`end_date`),   KEY `featured` (`featured`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8",
             "btx_events_locations": "CREATE TABLE `btx_events_locations` (   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,   `title` varchar(255) NOT NULL DEFAULT '',   `street` varchar(255) DEFAULT NULL,   `city` varchar(255) DEFAULT NULL,   `state` varchar(255) DEFAULT NULL,   `zip` varchar(255) DEFAULT NULL,   `country` varchar(255) DEFAULT NULL,   `route` varchar(255) NOT NULL,   `position` int(11) unsigned NOT NULL,   PRIMARY KEY (`id`),   KEY `route` (`route`),   KEY `position` (`position`),   KEY `title` (`title`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8",
             "btx_events_recurrence_rules": "CREATE TABLE `btx_events_recurrence_rules` (   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,   `event` int(11) unsigned NOT NULL,   `type` varchar(255) NOT NULL DEFAULT '',   `rule` varchar(255) NOT NULL DEFAULT '',   `recurring_end_date` date DEFAULT NULL,   `cancellations` longtext NOT NULL,   `start_date` date DEFAULT NULL,   `end_date` date DEFAULT NULL,   `start_time` time DEFAULT NULL,   `end_time` time DEFAULT NULL,   `all_day` char(2) NOT NULL DEFAULT '',   PRIMARY KEY (`id`),   KEY `event` (`event`),    FOREIGN KEY (`event`) REFERENCES `btx_events_events` (`id`) ON DELETE CASCADE ) ENGINE=InnoDB DEFAULT CHARSET=utf8"
         }
     },
-    "sql_revisions": []
+    "sql_revisions": {
+        "11": [
+            "ALTER TABLE `btx_events_events` ADD COLUMN `image_alt` varchar(255) NOT NULL AFTER `image`"
+        ]
+    }
 }

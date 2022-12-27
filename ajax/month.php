@@ -13,7 +13,7 @@
 	
 	// Get the events for this month
 	$events = BTXEvents::getEventsByDateRange(date("Y-m-1", $month), date("Y-m-t", $month));
-
+	
 	// Change the events into an array with the key being a date and the value being an array of events occurring on that day
 	$month_of_events = BTXEvents::getKeyedDateRangeForEvents($events);
 ?>
@@ -105,7 +105,7 @@
 				
 				foreach ($items as $item) {
 					if ($xx < 4) {
-						echo '<li><a href="'.MODULE_ROOT."edit/".$item["id"].'/">'.$item["title"]."</a></li>";
+						echo '<li><a href="'.MODULE_ROOT."edit/".$item->ID.'/">'.$item->Title."</a></li>";
 					}
 					
 					$xx++;

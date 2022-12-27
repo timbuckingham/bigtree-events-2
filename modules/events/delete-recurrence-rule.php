@@ -8,12 +8,12 @@
 	if ($permission_level != "p") {
 		$admin->stop("Access denied.");
 	}
-	
+
 	SQL::delete("btx_events_recurrence_rules", $rule["id"]);
-	BTXEvents::recacheEvent($rule["event"]);
-		
-	$admin->growl("Events", "Deleted Recurrence Rule");	
-	
+	BTXEvents\Cache::processEvent($rule["event"]);
+
+	$admin->growl("Events", "Deleted Recurrence Rule");
+
 	if ($_GET["return"] == "recurrences") {
 		BigTree::redirect(MODULE_ROOT."recurrences/".$rule["event"]."/");
 	} else {

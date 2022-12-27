@@ -29,7 +29,7 @@
 <div class="container">
 	<form method="post" action="<?=MODULE_ROOT?>update-recurrence-rule/">
 		<?php $admin->drawCSRFToken(); ?>
-		<input type="hidden" name="return" value="<?=htmlspecialchars($_GET["return"])?>">
+		<input type="hidden" name="return" value="<?=htmlspecialchars($_GET["return"] ?? "")?>">
 		<input type="hidden" name="id" value="<?=$recurrence_rule["id"]?>">
 		<input type="hidden" name="event" value="<?=$event["id"]?>">
 		<summary>

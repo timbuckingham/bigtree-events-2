@@ -8,21 +8,21 @@
 	$bigtree["datepickers"][] = "field_end_date";
 	$bigtree["timepickers"][] = "field_start_time";
 	$bigtree["timepickers"][] = "field_end_time";
-
+	
 	// Format Start Date w/ Chosen Date Format
 	if (!empty($bigtree["entry"]["start_date"]) && $bigtree["entry"]["start_date"] != "0000-00-00") {
 		$start_date = date($bigtree["config"]["date_format"], strtotime($bigtree["entry"]["start_date"]));
 	} else {
 		$start_date = "";
 	}
-
+	
 	// Format End Date w/ Chosen Date Format
 	if (!empty($bigtree["entry"]["end_date"]) && $bigtree["entry"]["end_date"] != "0000-00-00") {
 		$end_date = date($bigtree["config"]["date_format"], strtotime($bigtree["entry"]["end_date"]));
 	} else {
 		$end_date = "";
 	}
-
+	
 	if (!in_array("events.js", $bigtree["js"])) {
 		$bigtree["js"][] = "events.js";
 	}
@@ -62,7 +62,7 @@
 				<span class="icon_small icon_small_clock time_picker_icon"></span>
 			</fieldset>
 		</div>
-
+		
 		<fieldset id="all_day">
 			<input type="checkbox" id="field_all_day" tabindex="<?=$field["tabindex"]++?>" name="all_day" <?php if (!empty($bigtree["entry"]["all_day"])) { ?>checked="checked" <?php } ?>/>
 			<label class="for_checkbox" for="field_all_day">All Day</label>
